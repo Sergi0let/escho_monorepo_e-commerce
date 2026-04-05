@@ -1,0 +1,9 @@
+# Easypanel / Nixpacks: один сервіс catalog-api (без збірки Next.js store).
+[phases.install]
+cmds = ["npm ci"]
+
+[phases.build]
+cmds = ["npx turbo run build --filter=catalog-api"]
+
+[start]
+cmd = "npm run start -w catalog-api"

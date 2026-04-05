@@ -9,6 +9,7 @@
   "scripts": {
     "dev": "turbo dev",
     "build": "turbo build",
+    "start": "npm run start -w catalog-api",
     "lint": "turbo lint",
     "db:generate": "npm run db:generate -w @repo/db",
     "db:push": "npm run db:push -w @repo/db",
