@@ -1,0 +1,15 @@
+# Деплой admin (Vite): сайт у Netlify підключається до кореня репозиторію.
+# У UI можна не дублювати command/publish, якщо все задано тут.
+
+[build]
+  command = "npm ci && npm run build -w catalog-admin"
+  publish = "apps/admin/dist"
+
+[build.environment]
+  NODE_VERSION = "20.19.0"
+
+# React Router (client-side routes)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
