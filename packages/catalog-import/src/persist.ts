@@ -69,7 +69,7 @@ async function upsertOneProduct(client: PoolClient, p: BuiltProduct): Promise<{
   const r = await client.query<{ id: string }>(
     `INSERT INTO products (
        group_key, title, description, category_id, gender, brand, fabric, country, product_kind, feed_shop_name, updated_at
-     ) VALUES ($1, $2, $3, $4, $5::gender, $6, $7, $8, $9, $10, now())
+     ) VALUES ($1, $2, $3, $4, $5::"Gender", $6, $7, $8, $9, $10, now())
      ON CONFLICT (group_key) DO UPDATE SET
        title = EXCLUDED.title,
        description = EXCLUDED.description,

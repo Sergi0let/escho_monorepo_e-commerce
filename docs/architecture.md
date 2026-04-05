@@ -15,6 +15,8 @@
 | Шлях | Назва (npm) | Призначення |
 |------|-------------|-------------|
 | `apps/store` | `catalog-store` | Клієнтський магазин на **Next.js** (App Router). Каталог тягне через **HTTP**, не через прямий доступ до БД. |
+| `apps/admin` | `catalog-admin` | Адмінка на **Vite + React 19** + shadcn/ui (перенесена з `admin-example`). Дані таблиць — моки (`src/mocks/tableMocks.ts`). |
+| `apps/admin-example` | `admin` | Попередня **Next.js**-версія тієї ж адмінки (довідково). |
 | `apps/catalog-api` | `catalog-api` | **Express** REST API каталогу. Єдиний шар читання каталогу з БД для вітрини (легко винести окремо, масштабувати, додати інших клієнтів). |
 | `packages/db` | `@repo/db` | **Prisma 6.19.x** (версії зафіксовані без `^`): `schema.prisma` з `url` у `datasource`, клієнт, логіка в **`catalog-service`**. Розширення редактора під Prisma 7 може показувати хибні попередження про `url` — орієнтуйтесь на залежості пакета. Перехід на Prisma 7 потребує Node **≥ 20.19** і окремої міграції (`prisma.config.ts`, driver adapter). |
 | `packages/catalog-import` | `@xml-converter/catalog-import` | Імпорт YML/XML у Postgres (окремий пайплайн; зараз не обов’язково через Prisma). |
@@ -54,6 +56,15 @@
 2. З кореня: `npm install`, далі `npm run dev` — паралельно підуть процеси з `dev` у workspace (зокрема стор і catalog-api, з урахуванням `^build` для залежностей).
 
 Якщо стор стартує без доступного `catalog-api`, сторінки каталогу можуть падати на `fetch`; хедер частково обгорнутий у `try/catch`, але повноцінна робота вимагає живого API.
+
+## Деплой (Easypanel, Vercel, імпорт)
+
+| Документ | Зміст |
+|----------|--------|
+| [deployment-easypanel-postgres.md](./deployment-easypanel-postgres.md) | Postgres на Easypanel, credentials, внутрішній vs зовнішній host |
+| [deployment-easypanel-catalog-api.md](./deployment-easypanel-catalog-api.md) | `catalog-api` + Nixpacks, Turbo, PORT, HTTPS, health |
+| [deployment-catalog-import.md](./deployment-catalog-import.md) | `db:push`, імпорт фідів, `Gender` / Prisma |
+| [deployment-vercel-store.md](./deployment-vercel-store.md) | `apps/store` на Vercel (install з кореня монорепо, env) |
 
 ## Подальші напрями (за потреби)
 
