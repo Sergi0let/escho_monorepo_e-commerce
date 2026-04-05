@@ -2,6 +2,9 @@
   "name": "xml-converter-to-db",
   "private": true,
   "packageManager": "npm@10.2.3",
+  "engines": {
+    "node": ">=20.19.0"
+  },
   "workspaces": [
     "apps/*",
     "packages/*"

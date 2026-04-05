@@ -16,7 +16,11 @@ dotenv.config({ path: path.resolve(__dirname, "../../../.env.local") });
 dotenv.config({ path: path.resolve(__dirname, "../../store/.env.local") });
 
 const app = express();
-const port = Number(process.env.CATALOG_API_PORT ?? "4001");
+/** Easypanel / Docker задають PORT; локально зручніше CATALOG_API_PORT або 4001. */
+const port = Number(
+  process.env.PORT ?? process.env.CATALOG_API_PORT ?? "4001",
+);
+const listenHost = process.env.CATALOG_API_HOST ?? "0.0.0.0";
 
 /** Картка вітрини: `product` (за замовчуванням) або `color` — окремий рядок на кожен колір. */
 function listByColor(): boolean {
@@ -287,6 +291,8 @@ app.get("/api/products/:id/colors", async (req, res) => {
   }
 });
 
-app.listen(port, () => {
-  console.log(`catalog-api http://127.0.0.1:${port}`);
+app.listen(port, listenHost, () => {
+  console.log(
+    `catalog-api listening on http://${listenHost}:${port} (set PORT or CATALOG_API_PORT)`,
+  );
 });

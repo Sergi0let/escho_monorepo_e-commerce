@@ -1,4 +1,8 @@
 # Easypanel / Nixpacks: один сервіс catalog-api (без збірки Next.js store).
+# Node ≥20 — інакше npm логуватиме EBADENGINE (eslint-visitor-keys тощо).
+[phases.setup]
+nixPkgs = ["nodejs_20", "npm-10_x", "openssl"]
+
 [phases.install]
 cmds = ["npm ci"]
 
