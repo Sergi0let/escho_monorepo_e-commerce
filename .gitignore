@@ -1,0 +1,12 @@
+node_modules
+pnpm-lock.yaml
+.turbo
+dist
+.next
+.env
+.env.local
+*.log
+.DS_Store
+feeds
+.cursor
+.turbo

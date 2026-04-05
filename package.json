@@ -1,0 +1,20 @@
+{
+  "name": "xml-converter-to-db",
+  "private": true,
+  "packageManager": "npm@10.2.3",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "db:generate": "npm run db:generate -w @repo/db",
+    "db:push": "npm run db:push -w @repo/db",
+    "db:studio": "npm run db:studio -w @repo/db"
+  },
+  "devDependencies": {
+    "turbo": "^2.4.4"
+  }
+}

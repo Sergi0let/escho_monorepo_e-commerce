@@ -1,0 +1,143 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+	:root {
+		/* Витончений нейтральний фон, м’якші межі */
+		--background: 40 20% 97%;
+		--foreground: 24 10% 11%;
+		--card: 0 0% 100%;
+		--card-foreground: 24 10% 11%;
+		--popover: 0 0% 100%;
+		--popover-foreground: 24 10% 11%;
+		--primary: 24 10% 11%;
+		--primary-foreground: 40 25% 98%;
+		--secondary: 35 15% 93%;
+		--secondary-foreground: 24 10% 11%;
+		--muted: 35 12% 94%;
+		--muted-foreground: 24 6% 40%;
+		--accent: 35 18% 93%;
+		--accent-foreground: 24 10% 11%;
+		--destructive: 0 72% 50%;
+		--destructive-foreground: 0 0% 98%;
+		--border: 30 10% 90%;
+		--input: 30 10% 90%;
+		--ring: 24 10% 11%;
+		--radius: 0.4375rem;
+		/* CheckoutForm (legacy classnames) */
+		--main-primary: hsl(142 76% 36%);
+		--main-dark: hsl(142 76% 28%);
+		--secondary-light: hsl(35 18% 92%);
+	}
+
+	.dark {
+		--background: 0 0% 7%;
+		--foreground: 0 0% 96%;
+		--card: 0 0% 10%;
+		--card-foreground: 0 0% 96%;
+		--popover: 0 0% 10%;
+		--popover-foreground: 0 0% 96%;
+		--primary: 0 0% 96%;
+		--primary-foreground: 0 0% 9%;
+		--secondary: 0 0% 14%;
+		--secondary-foreground: 0 0% 96%;
+		--muted: 0 0% 14%;
+		--muted-foreground: 0 0% 64%;
+		--accent: 0 0% 16%;
+		--accent-foreground: 0 0% 96%;
+		--destructive: 0 62% 42%;
+		--destructive-foreground: 0 0% 98%;
+		--border: 0 0% 18%;
+		--input: 0 0% 18%;
+		--ring: 0 0% 83%;
+	}
+
+	* {
+		@apply border-border;
+	}
+
+	body {
+		@apply min-h-screen bg-background font-sans text-foreground antialiased;
+		text-rendering: optimizeLegibility;
+	}
+
+	.font-display {
+		letter-spacing: -0.02em;
+	}
+}
+
+@layer utilities {
+	.hero-grid {
+		background-color: hsl(var(--card));
+		background-image:
+			linear-gradient(to right, hsl(var(--border) / 0.55) 1px, transparent 1px),
+			linear-gradient(to bottom, hsl(var(--border) / 0.55) 1px, transparent 1px);
+		background-size: 44px 44px;
+		background-position: -1px -1px;
+	}
+
+	.eyebrow {
+		@apply text-[11px] font-semibold uppercase tracking-[0.28em] text-muted-foreground;
+	}
+
+	.thin-scrollbar {
+		scrollbar-width: thin;
+		scrollbar-color: hsl(var(--border)) transparent;
+	}
+
+	.thin-scrollbar::-webkit-scrollbar {
+		height: 4px;
+	}
+
+	.thin-scrollbar::-webkit-scrollbar-thumb {
+		@apply rounded-full bg-border;
+	}
+
+	.section-heading {
+		@apply text-[13px] font-bold uppercase tracking-[0.12em] text-foreground;
+	}
+
+	.prose-product strong {
+		@apply font-semibold text-foreground;
+	}
+
+	.prose-product p {
+		@apply mb-3 last:mb-0;
+	}
+
+	.prose-product ul {
+		@apply my-2 list-disc space-y-1 pl-5;
+	}
+
+	/* Swiper у блоці з aspect-ratio */
+	.product-gallery-main.swiper {
+		width: 100%;
+	}
+
+	.product-gallery-main .swiper-wrapper {
+	}
+
+	.product-gallery-main .swiper-slide {
+		min-height: 0;
+		box-sizing: border-box;
+	}
+
+	.product-gallery-main .swiper-zoom-container {
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.product-gallery-zoom-img {
+		display: block;
+		max-width: 100%;
+		object-fit: contain;
+	}
+
+	.product-gallery-frame {
+		-webkit-transform: translateZ(0);
+		transform: translateZ(0);
+	}
+}
