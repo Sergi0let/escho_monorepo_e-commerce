@@ -1,6 +1,7 @@
 import * as catalog from "@repo/db";
 import type express from "express";
 import { listByColor, parseListFilters } from "../utils/env-config.js";
+import { sendInternalError } from "../utils/internal-error.js";
 
 export function registerCategoryRoutes(app: express.Express): void {
   app.get("/api/categories/nav", async (req, res) => {
@@ -9,8 +10,7 @@ export function registerCategoryRoutes(app: express.Express): void {
       const data = await catalog.getStorefrontNavCategories(limit);
       res.json(data);
     } catch (e) {
-      console.error(e);
-      res.status(500).json({ error: "Internal error" });
+      sendInternalError(res, e, "categories/nav");
     }
   });
 
@@ -28,8 +28,7 @@ export function registerCategoryRoutes(app: express.Express): void {
       }
       res.json(row);
     } catch (e) {
-      console.error(e);
-      res.status(500).json({ error: "Internal error" });
+      sendInternalError(res, e, "categories/:id");
     }
   });
 
@@ -46,8 +45,7 @@ export function registerCategoryRoutes(app: express.Express): void {
         : await catalog.countProductsByCategory(id, filters);
       res.json({ count });
     } catch (e) {
-      console.error(e);
-      res.status(500).json({ error: "Internal error" });
+      sendInternalError(res, e, "categories/products/count");
     }
   });
 
@@ -66,8 +64,7 @@ export function registerCategoryRoutes(app: express.Express): void {
         : await catalog.getProductsByCategory(id, limit, offset, filters);
       res.json(data);
     } catch (e) {
-      console.error(e);
-      res.status(500).json({ error: "Internal error" });
+      sendInternalError(res, e, "categories/products");
     }
   });
 }

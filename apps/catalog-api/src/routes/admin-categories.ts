@@ -1,5 +1,6 @@
 import * as catalog from "@repo/db";
 import type { Router } from "express";
+import { sendInternalError } from "../utils/internal-error.js";
 
 function prismaCode(e: unknown): string | undefined {
   if (typeof e === "object" && e !== null && "code" in e) {
@@ -62,8 +63,7 @@ export function mountAdminCategoryRoutes(r: Router): void {
         res.status(409).json({ error: "Category id already exists" });
         return;
       }
-      console.error(e);
-      res.status(500).json({ error: "Internal error" });
+      sendInternalError(res, e, "admin/categories POST");
     }
   });
 
@@ -110,8 +110,7 @@ export function mountAdminCategoryRoutes(r: Router): void {
         res.status(404).json({ error: "Not found" });
         return;
       }
-      console.error(e);
-      res.status(500).json({ error: "Internal error" });
+      sendInternalError(res, e, "admin/categories PATCH");
     }
   });
 }

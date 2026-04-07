@@ -1,6 +1,7 @@
 import * as catalog from "@repo/db";
 import type { Gender } from "@repo/db";
 import type { Router } from "express";
+import { sendInternalError } from "../utils/internal-error.js";
 
 const GENDERS = new Set<string>(["male", "female", "unisex", "unknown"]);
 
@@ -120,8 +121,7 @@ export function mountAdminProductRoutes(r: Router): void {
         res.status(404).json({ error: "Not found" });
         return;
       }
-      console.error(e);
-      res.status(500).json({ error: "Internal error" });
+      sendInternalError(res, e, "admin/products PATCH");
     }
   });
 }

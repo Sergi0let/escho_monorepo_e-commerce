@@ -1,6 +1,7 @@
 import * as catalog from '@repo/db';
 import type express from 'express';
 import { listByColor, parseListFilters } from '../utils/env-config.js';
+import { sendInternalError } from '../utils/internal-error.js';
 
 export function registerProductRoutes(app: express.Express): void {
 	app.get('/api/products/count', async (req, res) => {
@@ -11,8 +12,7 @@ export function registerProductRoutes(app: express.Express): void {
 				: await catalog.countStockedProducts(filters);
 			res.json({ count });
 		} catch (e) {
-			console.error(e);
-			res.status(500).json({ error: 'Internal error' });
+			sendInternalError(res, e, 'products/count');
 		}
 	});
 
@@ -26,8 +26,7 @@ export function registerProductRoutes(app: express.Express): void {
 				: await catalog.getStockedProductsPage(limit, offset, filters);
 			res.json(data);
 		} catch (e) {
-			console.error(e);
-			res.status(500).json({ error: 'Internal error' });
+			sendInternalError(res, e, 'products/list');
 		}
 	});
 
@@ -42,8 +41,7 @@ export function registerProductRoutes(app: express.Express): void {
 			);
 			res.json(data);
 		} catch (e) {
-			console.error(e);
-			res.status(500).json({ error: 'Internal error' });
+			sendInternalError(res, e, 'catalog/filter-options');
 		}
 	});
 
@@ -54,8 +52,7 @@ export function registerProductRoutes(app: express.Express): void {
 			const data = await catalog.getFeaturedProductsBalanced(limit);
 			res.json(data);
 		} catch (e) {
-			console.error(e);
-			res.status(500).json({ error: 'Internal error' });
+			sendInternalError(res, e, 'products/featured');
 		}
 	});
 
@@ -77,8 +74,7 @@ export function registerProductRoutes(app: express.Express): void {
 			}
 			res.json(row);
 		} catch (e) {
-			console.error(e);
-			res.status(500).json({ error: 'Internal error' });
+			sendInternalError(res, e, 'products/detail');
 		}
 	});
 
@@ -96,8 +92,7 @@ export function registerProductRoutes(app: express.Express): void {
 			const data = await catalog.getProductColorsWithSkus(id);
 			res.json(data);
 		} catch (e) {
-			console.error(e);
-			res.status(500).json({ error: 'Internal error' });
+			sendInternalError(res, e, 'products/colors');
 		}
 	});
 }
