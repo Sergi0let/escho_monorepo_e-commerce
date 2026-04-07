@@ -51,6 +51,7 @@ export type ProductDetail = {
 	fabric: string | null;
 	country: string | null;
 	product_kind: string | null;
+	feed_shop_name: string | null;
 	category_id: string | null;
 	category_name: string | null;
 };

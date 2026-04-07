@@ -685,6 +685,7 @@ export async function getProductById(
        p.fabric,
        p.country,
        p.product_kind,
+       p.feed_shop_name,
        p.category_id::text AS category_id,
        c.name AS category_name
      FROM products p

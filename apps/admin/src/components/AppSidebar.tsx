@@ -13,9 +13,7 @@ import {
 	User2,
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import AddCategory from './AddCategory';
 import AddOrder from './AddOrder';
-import AddProduct from './AddProduct';
 import AddUser from './AddUser';
 import {
 	DropdownMenu,
@@ -107,55 +105,30 @@ const AppSidebar = () => {
 				</SidebarGroup>
 				<SidebarGroup>
 					<SidebarGroupLabel>Products</SidebarGroupLabel>
-					<SidebarGroupAction>
-						<Plus /> <span className='sr-only'>Add Product</span>
-					</SidebarGroupAction>
 					<SidebarGroupContent>
 						<SidebarMenu>
 							<SidebarMenuItem>
 								<SidebarMenuButton asChild>
-									<Link to='/products'>
+									<Link to='/products' className='cursor-pointer'>
 										<Shirt />
-										See All Product
+										Усі товари
 									</Link>
 								</SidebarMenuButton>
 							</SidebarMenuItem>
 							<SidebarMenuItem>
 								<SidebarMenuButton asChild>
-									<Link to='/categories'>
+									<Link to='/categories' className='cursor-pointer'>
 										<FolderTree />
-										Categories (API)
+										Категорії
 									</Link>
 								</SidebarMenuButton>
 							</SidebarMenuItem>
 							<SidebarMenuItem>
 								<SidebarMenuButton asChild>
-									<Sheet>
-										<SheetTrigger asChild>
-											<SidebarMenuButton asChild>
-												<Link to='#'>
-													<Plus />
-													Add Product
-												</Link>
-											</SidebarMenuButton>
-										</SheetTrigger>
-										<AddProduct />
-									</Sheet>
-								</SidebarMenuButton>
-							</SidebarMenuItem>
-							<SidebarMenuItem>
-								<SidebarMenuButton asChild>
-									<Sheet>
-										<SheetTrigger asChild>
-											<SidebarMenuButton asChild>
-												<Link to='#'>
-													<Plus />
-													Add Category
-												</Link>
-											</SidebarMenuButton>
-										</SheetTrigger>
-										<AddCategory />
-									</Sheet>
+									<Link to='/categories' className='cursor-pointer'>
+										<Plus />
+										Додати категорію
+									</Link>
 								</SidebarMenuButton>
 							</SidebarMenuItem>
 						</SidebarMenu>

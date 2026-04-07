@@ -2,20 +2,11 @@ import ShellLayout from "@/ShellLayout";
 import CategoriesPage from "@/pages/CategoriesPage";
 import HomePage from "@/pages/HomePage";
 import PaymentsPage from "@/pages/PaymentsPage";
+import ProductEditPage from "@/pages/ProductEditPage";
 import ProductsPage from "@/pages/ProductsPage";
 import UserDetailPage from "@/pages/UserDetailPage";
 import UsersPage from "@/pages/UsersPage";
-import { Route, Routes, useParams } from "react-router-dom";
-
-/** У Next-версії не було окремої сторінки товару — заглушка для посилань з таблиці. */
-function ProductDetailStub() {
-  const { id } = useParams();
-  return (
-    <div className="bg-secondary mt-4 rounded-md p-4 text-sm">
-      Картка товару (мок), id: {id}. У прикладі Next окремої сторінки не було.
-    </div>
-  );
-}
+import { Route, Routes } from "react-router-dom";
 
 export default function App() {
   return (
@@ -26,7 +17,7 @@ export default function App() {
         <Route path="/users/:id" element={<UserDetailPage />} />
         <Route path="/products" element={<ProductsPage />} />
         <Route path="/categories" element={<CategoriesPage />} />
-        <Route path="/products/:id" element={<ProductDetailStub />} />
+        <Route path="/products/:id" element={<ProductEditPage />} />
         <Route path="/payments" element={<PaymentsPage />} />
       </Routes>
     </ShellLayout>

@@ -27,3 +27,33 @@ export type CategoryRow = {
 	name: string;
 	parent_id: string | null;
 };
+
+export type ProductDetail = {
+	id: string;
+	title: string | null;
+	description: string | null;
+	gender: string;
+	brand: string | null;
+	fabric: string | null;
+	country: string | null;
+	product_kind: string | null;
+	feed_shop_name: string | null;
+	category_id: string | null;
+	category_name: string | null;
+};
+
+export type SkuJson = {
+	barcode: string;
+	size_label: string | null;
+	price: string;
+	old_price: string;
+	available: boolean;
+};
+
+export type ColorWithSkus = {
+	id: string;
+	color_name: string;
+	sort_order: number;
+	image_urls: string[] | null;
+	skus: SkuJson[];
+};

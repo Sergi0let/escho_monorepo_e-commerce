@@ -7,11 +7,14 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+/** У БД тип PostgreSQL називається `gender`, не `Gender`. */
 enum Gender {
   male
   female
   unisex
   unknown
+
+  @@map("gender")
 }
 
 model Category {
