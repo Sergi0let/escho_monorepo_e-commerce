@@ -1,0 +1,70 @@
+# Локальні тести catalog-api
+# VS Code / Cursor: розширення "REST Client" (humao.rest-client)
+# Перед запуском: npm run dev -w catalog-api (або turbo), у .env задай ADMIN_API_KEY
+
+@base = http://127.0.0.1:4001
+# Підстав свій ключ з ADMIN_API_KEY:
+@key = заміни-на-свій-admin-api-key
+
+### Публічно — здоров’я
+GET {{base}}/api/health
+
+### Публічно — лічильник товарів
+GET {{base}}/api/products/count
+
+### Публічно — список (перша сторінка)
+GET {{base}}/api/products?limit=5&offset=0
+
+### Admin — без ключа (очікуй 401)
+PATCH {{base}}/api/admin/products/00000000-0000-0000-0000-000000000001
+Content-Type: application/json
+
+{"title": "test"}
+
+### Admin — категорія POST (id як у фіду; зміни body під свою БД)
+POST {{base}}/api/admin/categories
+X-API-Key: {{key}}
+Content-Type: application/json
+
+{
+  "id": 999001,
+  "name": "Тестова категорія",
+  "parent_id": null
+}
+
+### Admin — категорія PATCH (заміни :id на реальний bigint з БД)
+PATCH {{base}}/api/admin/categories/999001
+X-API-Key: {{key}}
+Content-Type: application/json
+
+{
+  "name": "Оновлена назва"
+}
+
+### Admin — товар PATCH (заміни UUID на реальний id з /api/products)
+PATCH {{base}}/api/admin/products/00000000-0000-0000-0000-000000000000
+X-API-Key: {{key}}
+Content-Type: application/json
+
+{
+  "title": "Назва з admin API",
+  "gender": "unisex"
+}
+
+### Замовлення (як вітрина; Telegram опційно)
+POST {{base}}/api/orders
+Content-Type: application/json
+
+{
+  "lastname": "Тест",
+  "name": "Петро",
+  "phone": "+380000000000",
+  "mail": "",
+  "deliveryType": "nova",
+  "deliveryCity": "Київ",
+  "deliveryAddress": "Відділення 1",
+  "paymentType": "payAfterGetting",
+  "comment": "",
+  "items": [{ "name": "Тест", "price": 100, "quantity": 1 }],
+  "totalPrice": 100
+}

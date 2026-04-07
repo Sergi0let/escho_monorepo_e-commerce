@@ -1,14 +1,14 @@
-import type { CatalogGridItem, CategoryRow } from "./catalog-types";
+import type { CatalogGridItem, CategoryRow } from './catalog-types';
 
 function catalogBaseUrl(): string {
 	const raw =
 		(import.meta.env.VITE_CATALOG_API_URL as string | undefined)?.trim() ||
-		"http://127.0.0.1:4001";
-	return raw.replace(/\/$/, "");
+		'http://127.0.0.1:4002';
+	return raw.replace(/\/$/, '');
 }
 
 async function apiGet<T>(path: string): Promise<T> {
-	const url = `${catalogBaseUrl()}${path.startsWith("/") ? path : `/${path}`}`;
+	const url = `${catalogBaseUrl()}${path.startsWith('/') ? path : `/${path}`}`;
 	const res = await fetch(url);
 	if (!res.ok) {
 		const text = await res.text();
@@ -34,6 +34,6 @@ export async function fetchProductsPage(
 }
 
 export async function fetchProductsCount(): Promise<number> {
-	const r = await apiGet<{ count: number }>("/api/products/count");
-	return typeof r.count === "number" ? r.count : 0;
+	const r = await apiGet<{ count: number }>('/api/products/count');
+	return typeof r.count === 'number' ? r.count : 0;
 }

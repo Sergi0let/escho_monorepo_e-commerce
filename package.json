@@ -20,5 +20,8 @@
   },
   "devDependencies": {
     "turbo": "^2.4.4"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.19.1"
   }
 }
