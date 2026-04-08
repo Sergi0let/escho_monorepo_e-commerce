@@ -49,7 +49,14 @@ X-API-Key: <те саме значення, що ADMIN_API_KEY>
 |--------|------|----------------|
 | `POST` | `/api/admin/categories` | `{"id": 12345, "name": "Назва", "parent_id": null}` — `id` обов'язковий (як у фіду), без автоінкременту. |
 | `PATCH` | `/api/admin/categories/:id` | `{"name": "..."}` і/або `{"parent_id": null}` або число. |
+| `POST` | `/api/admin/products` | Створити товар (без `group_key` у body; генерується автоматично). Поля як у PATCH нижче, але всі опційні. |
 | `PATCH` | `/api/admin/products/:id` | UUID товару в URL; у body частково: `title`, `description`, `brand`, `fabric`, `country`, `product_kind`, `feed_shop_name`, `category_id`, `gender` (`male` \| `female` \| `unisex` \| `unknown`). |
+| `POST` | `/api/admin/products/:id/colors` | `{"color_name":"Black","sort_order":0,"image_urls":["https://..."]}` — додає колір до товару. |
+| `DELETE` | `/api/admin/product-colors/:id` | UUID кольору в URL; видаляє колір і **каскадом** всі його SKU. |
+| `POST` | `/api/admin/products/:id/skus` | `{"product_color_id":"UUID","barcode":"...","size_label":"M","price":"999.00","old_price":"1299.00","available":true}`. `old_price` опційний: якщо не передано — буде = `price`. |
+| `PATCH` | `/api/admin/skus/:barcode` | Частково: `size_label`, `price`, `old_price`, `available`. Якщо `old_price` передано як порожній рядок — буде = `price`. |
+| `DELETE` | `/api/admin/skus/:barcode` | Видалити SKU по `barcode`. |
+| `DELETE` | `/api/admin/products/:id` | Видалити товар по UUID **з каскадом** (кольори + SKU). |
 
 Помилки Prisma: дубль категорії **409** (`P2002`), не знайдено **404** (`P2025`).
 
@@ -65,6 +72,16 @@ curl -sS -X PATCH "$API/api/admin/products/UUID-ТОВАРУ" \
   -H "Content-Type: application/json" \
   -H "X-API-Key: $KEY" \
   -d '{"title":"Нова назва"}'
+
+# Додати колір до товару
+curl -sS -X POST "$API/api/admin/products/UUID-ТОВАРУ/colors" \
+  -H "Content-Type: application/json" \
+  -H "X-API-Key: $KEY" \
+  -d '{"color_name":"Black","sort_order":0,"image_urls":[]}'
+
+# Видалити колір (каскадом видаляться SKU цього кольору)
+curl -sS -X DELETE "$API/api/admin/product-colors/UUID-КОЛЬОРУ" \
+  -H "X-API-Key: $KEY"
 ```
 
 ### Швидко тестити нові маршрути локально

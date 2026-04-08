@@ -22,11 +22,16 @@ function listingMode(): "stocked" | "all" {
 }
 
 function listingWhereClause(): Prisma.Sql {
+  const hasColor = Prisma.sql`EXISTS (
+    SELECT 1 FROM product_colors pc WHERE pc.product_id = p.id
+  )`;
+  const hasStockedSku = Prisma.sql`EXISTS (
+    SELECT 1 FROM skus s WHERE s.product_id = p.id AND s.available
+  )`;
+
   return listingMode() === "all"
-    ? Prisma.sql`TRUE`
-    : Prisma.sql`EXISTS (
-  SELECT 1 FROM skus s WHERE s.product_id = p.id AND s.available
-)`;
+    ? hasColor
+    : Prisma.sql`${hasColor} AND ${hasStockedSku}`;
 }
 
 function normalizeCatalogFilters(

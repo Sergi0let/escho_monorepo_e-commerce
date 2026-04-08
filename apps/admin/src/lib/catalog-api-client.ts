@@ -17,7 +17,9 @@ function catalogBaseUrl(): string {
  * Vite вбудовує значення в клієнтський бандл — для продакшену краще BFF/проксі.
  */
 function catalogAdminApiKey(): string | undefined {
-	const k = (import.meta.env.VITE_CATALOG_ADMIN_API_KEY as string | undefined)?.trim();
+	const k = (
+		import.meta.env.VITE_CATALOG_ADMIN_API_KEY as string | undefined
+	)?.trim();
 	return k && k.length > 0 ? k : undefined;
 }
 
@@ -91,6 +93,40 @@ export type AdminPatchProductBody = Partial<{
 	gender: string;
 }>;
 
+export type AdminCreateProductBody = Partial<{
+	title: string | null;
+	description: string | null;
+	brand: string | null;
+	fabric: string | null;
+	country: string | null;
+	product_kind: string | null;
+	feed_shop_name: string | null;
+	category_id: number | string | null;
+	gender: string;
+}>;
+
+export type AdminCreateProductColorBody = {
+	color_name: string;
+	sort_order?: number;
+	image_urls?: string[];
+};
+
+export type AdminCreateSkuBody = {
+	product_color_id: string;
+	barcode: string;
+	size_label?: string | null;
+	price: string | number;
+	old_price?: string | number;
+	available?: boolean;
+};
+
+export type AdminPatchSkuBody = Partial<{
+	size_label: string | null;
+	price: string | number;
+	old_price: string | number;
+	available: boolean;
+}>;
+
 export async function createAdminCategory(
 	body: AdminCreateCategoryBody,
 ): Promise<{ id: string; name: string; parent_id: string | null }> {
@@ -120,6 +156,65 @@ export async function updateAdminProduct(
 		method: 'PATCH',
 		headers: { 'Content-Type': 'application/json' },
 		body: JSON.stringify(body),
+	});
+}
+
+export async function createAdminProduct(
+	body: AdminCreateProductBody,
+): Promise<ProductDetail> {
+	return catalogApiFetch('/api/admin/products', {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify(body),
+	});
+}
+
+export async function createAdminProductColor(
+	productId: string,
+	body: AdminCreateProductColorBody,
+): Promise<ColorWithSkus[]> {
+	return catalogApiFetch(`/api/admin/products/${productId}/colors`, {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify(body),
+	});
+}
+
+export async function createAdminSku(
+	productId: string,
+	body: AdminCreateSkuBody,
+): Promise<ColorWithSkus['skus'][number]> {
+	return catalogApiFetch(`/api/admin/products/${productId}/skus`, {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify(body),
+	});
+}
+
+export async function updateAdminSku(
+	barcode: string,
+	body: AdminPatchSkuBody,
+): Promise<ColorWithSkus['skus'][number]> {
+	return catalogApiFetch(`/api/admin/skus/${encodeURIComponent(barcode)}`, {
+		method: 'PATCH',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify(body),
+	});
+}
+
+export async function deleteAdminSku(barcode: string): Promise<void> {
+	await catalogApiFetch(`/api/admin/skus/${encodeURIComponent(barcode)}`, {
+		method: 'DELETE',
+	});
+}
+
+export async function deleteAdminProduct(productId: string): Promise<void> {
+	await catalogApiFetch(`/api/admin/products/${productId}`, { method: 'DELETE' });
+}
+
+export async function deleteAdminProductColor(productColorId: string): Promise<void> {
+	await catalogApiFetch(`/api/admin/product-colors/${productColorId}`, {
+		method: 'DELETE',
 	});
 }
 
