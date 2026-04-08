@@ -2,6 +2,7 @@ import ShellLayout from "@/ShellLayout";
 import CategoriesPage from "@/pages/CategoriesPage";
 import HomePage from "@/pages/HomePage";
 import PaymentsPage from "@/pages/PaymentsPage";
+import ProductCreatePage from "@/pages/ProductCreatePage";
 import ProductEditPage from "@/pages/ProductEditPage";
 import ProductsPage from "@/pages/ProductsPage";
 import UserDetailPage from "@/pages/UserDetailPage";
@@ -16,6 +17,7 @@ export default function App() {
         <Route path="/users" element={<UsersPage />} />
         <Route path="/users/:id" element={<UserDetailPage />} />
         <Route path="/products" element={<ProductsPage />} />
+        <Route path="/products/new" element={<ProductCreatePage />} />
         <Route path="/categories" element={<CategoriesPage />} />
         <Route path="/products/:id" element={<ProductEditPage />} />
         <Route path="/payments" element={<PaymentsPage />} />
