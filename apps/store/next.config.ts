@@ -17,6 +17,11 @@ const nextConfig: NextConfig = {
 				hostname: 'crm.newtrend.team',
 				pathname: '/media/**',
 			},
+			{
+				protocol: 'https',
+				hostname: '**',
+				pathname: '/**',
+			},
 		],
 	},
 };

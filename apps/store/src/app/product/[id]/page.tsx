@@ -2,7 +2,9 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ProductPurchasePanel } from '@/components/ProductPurchasePanel';
 import { ProductStoreSections } from '@/components/ProductStoreSections';
+import { ProductGrid } from '@/components/ProductGrid';
 import { getProductById, getProductColorsWithSkus } from '@/lib/queries';
+import { getFeaturedProductsBalanced } from '@/lib/queries';
 import { genderLabel } from '@/lib/format';
 
 export const dynamic = 'force-dynamic';
@@ -26,13 +28,18 @@ export default async function ProductPage({ params, searchParams }: Props) {
     /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
   if (!uuidRe.test(id)) notFound();
 
-  const product = await getProductById(id);
+  const [product, colors, featured] = await Promise.all([
+    getProductById(id),
+    getProductColorsWithSkus(id),
+    getFeaturedProductsBalanced(12).catch(() => []),
+  ]);
   if (!product) notFound();
 
-  const colors = await getProductColorsWithSkus(id);
   if (!colors.length) {
     notFound();
   }
+
+  const featuredFiltered = featured.filter((p) => p.id !== id);
 
   return (
     <article className="space-y-12 pb-28 md:pb-0">
@@ -102,6 +109,20 @@ export default async function ProductPage({ params, searchParams }: Props) {
           <ProductStoreSections descriptionHtml={product.description} />
         </div>
       </div>
+
+      {featuredFiltered.length ? (
+        <section className="space-y-8">
+          <div className="flex flex-col gap-2 border-b border-border pb-6 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="eyebrow mb-2">Добірка</p>
+              <h2 className="font-display text-3xl font-normal tracking-tight text-foreground md:text-4xl">
+                Рекомендовані товари
+              </h2>
+            </div>
+          </div>
+          <ProductGrid products={featuredFiltered} />
+        </section>
+      ) : null}
     </article>
   );
 }

@@ -117,6 +117,14 @@ const AppSidebar = () => {
 							</SidebarMenuItem>
 							<SidebarMenuItem>
 								<SidebarMenuButton asChild>
+									<Link to='/products/new' className='cursor-pointer'>
+										<Plus />
+										Додати товар
+									</Link>
+								</SidebarMenuButton>
+							</SidebarMenuItem>
+							<SidebarMenuItem>
+								<SidebarMenuButton asChild>
 									<Link to='/categories' className='cursor-pointer'>
 										<FolderTree />
 										Категорії
